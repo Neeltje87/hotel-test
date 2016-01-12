@@ -1,5 +1,7 @@
 package bookingstart;
 
+import java.util.HashMap;
+
 import javafx.application.*;
 
 import javafx.stage.*;
@@ -234,7 +236,11 @@ public class RoomOrder extends Application
 			roomType = new Suite();
 		}
 
-
+		// check availability...
+		Availability availability = new Availability();
+		HashMap<Integer, String> roomAvailable = availability.getRoomAvailability();
+		System.out.println(roomAvailable);
+		
 			String booking = roomType.getDescription();
 
 			// Add the extra's
