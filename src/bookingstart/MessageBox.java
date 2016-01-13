@@ -4,10 +4,13 @@ import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
+
+import java.time.LocalDate;
+
 import javafx.geometry.*;
 public class MessageBox
 {
-	public static void show(String message, String title)
+	public static void confirm(String message, String title, int roomNr, double price, LocalDate checkIn, LocalDate checkOut)
 	{
 		Stage stage = new Stage();
 		stage.initModality(Modality.APPLICATION_MODAL);
@@ -19,7 +22,7 @@ public class MessageBox
 		Button btnCancel = new Button();
 		btnBook.setText("Book room");
 		btnCancel.setText("Cancel");
-		btnBook.setOnAction(e -> {new Book(); stage.close();});
+		btnBook.setOnAction(e -> {new Book(roomNr, price, checkIn, checkOut); stage.close();});
 		btnCancel.setOnAction(e -> stage.close());
 		VBox pane = new VBox(20);
 		pane.getChildren().addAll(lbl, btnBook, btnCancel);

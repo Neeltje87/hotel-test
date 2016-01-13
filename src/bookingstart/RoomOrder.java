@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
+import java.util.Map;
 
 import javafx.application.*;
 
@@ -236,6 +237,15 @@ public class RoomOrder extends Application
 		primaryStage.show();
 
 	}
+    
+    public static Object getKeyFromValue(Map<Integer, Integer> hm, Object value) {
+        for (Object o : hm.keySet()) {
+          if (hm.get(o).equals(value)) {
+            return o;
+          }
+        }
+        return null;
+    }
 
 // create actions to execute on button click
 
@@ -269,9 +279,12 @@ public class RoomOrder extends Application
 		Period period = Period.between(checkIn, checkOut);
 		int duration = period.getDays();
 		
+		int roomNr = 0;
 		
 		// continue if free room found
 		if(reservations.containsValue(0)) {
+			// get roomNr of free room
+			roomNr = (int) getKeyFromValue(reservations, 0 );
 			
 			// Add the extra's
 			String extras = "";
@@ -308,8 +321,7 @@ public class RoomOrder extends Application
 			booking += " \n Sorry no room available for given time period";
 		}
 		// Display the message
-
-		MessageBox.show(booking, "Booking pending");
+		MessageBox.confirm(booking, "Booking pending", roomNr, price, checkIn, checkOut);
 		//System.out.println("Price of " + booking);
 		
 		
