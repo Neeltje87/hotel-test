@@ -242,11 +242,11 @@ public class RoomOrder extends Application
 		// if booking is 0 then room is free
 		Reservation rooms = new Reservation(LocalDate.of(2016, 1, 13), booking);
 		HashMap<Integer, Integer> reservations = rooms.getAllRooms();
-		System.out.println(reservations);
+		System.out.println(reservations + "\n" + reservations.containsValue(0));
 		
 		
 		// continue if free room found
-
+		if(reservations.containsValue(0)) {
 			// Add the extra's
 
 			String extras = "";
@@ -274,11 +274,10 @@ public class RoomOrder extends Application
 			}
 
 			booking += "\n Total price = " + price;
-
-			
+		} else {	
 			// if no free room found
-			//booking += " \n Sorry no room available for given time period";
-			
+			booking += " \n Sorry no room available for given time period";
+		}
 		// Display the message
 
 		MessageBox.show(booking, "Booking pending");
