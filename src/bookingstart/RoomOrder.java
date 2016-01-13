@@ -81,13 +81,14 @@ public class RoomOrder extends Application
 
 		// Create date picker pane
 		
-		Label lblDate = new Label("Select date");
+		Label lblIn = new Label("check in date");
+		Label lblOut = new Label("check out date");
 		checkInDatePicker = new DatePicker();
 		checkOutDatePicker = new DatePicker();
 		
 		checkInDatePicker.setValue(LocalDate.now());
 	    
-		// calculate the length of stay and present in tooltip
+			// calculate the length of stay and present in tooltip
 		final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
 	      @Override
 	      public DateCell call(final DatePicker datePicker) {
@@ -109,10 +110,12 @@ public class RoomOrder extends Application
 	    checkOutDatePicker.setDayCellFactory(dayCellFactory);
 	    checkOutDatePicker.setValue(checkInDatePicker.getValue().plusDays(1));
 
-	    
-		VBox paneDate = new VBox(lblDate, checkInDatePicker, checkOutDatePicker);
-
-		paneDate.setSpacing(10);
+	    // label en input onder elkaar (verticaal) en checkin en checkout naast elkaar (horizontaal)
+		VBox paneIn = new VBox(lblIn, checkInDatePicker);
+		VBox paneOut = new VBox(lblOut, checkOutDatePicker);
+		
+		HBox paneDuration = new HBox(paneIn, paneOut);
+		paneDuration.setSpacing(10);
 		
 		// Create the roomtype pane
 
@@ -139,8 +142,6 @@ public class RoomOrder extends Application
 
 		// Create the extra's pane
 
-
-
 		Label lblToppings = new Label("Extra's");
 
 		chkSlaapbank = new CheckBox("Slaapbank");
@@ -166,21 +167,13 @@ public class RoomOrder extends Application
 
 		VBox paneTopping = new VBox(lblToppings, paneToppings);
 
-
-
 		// Add the roomtype and extra's pane to the order pane
 
-
-
-		HBox paneBooking = new HBox(50, paneDate, paneSize, paneTopping);
-
-
+		HBox paneBooking = new HBox(40, paneSize, paneTopping);
 
 		// Create the center pane
 
-
-
-		VBox paneCenter = new VBox(20, paneBooking);
+		VBox paneCenter = new VBox(40, paneDuration, paneBooking);
 
 		paneCenter.setPadding(new Insets(0,10, 0, 10));
 
@@ -252,7 +245,6 @@ public class RoomOrder extends Application
 		// get desired booking dates
 		LocalDate checkIn = checkInDatePicker.getValue();
 		LocalDate checkOut = checkOutDatePicker.getValue();
-		System.out.println(checkIn + " " + checkOut);
 		
 		// Add the room type
 
@@ -273,13 +265,10 @@ public class RoomOrder extends Application
 		Reservation rooms = new Reservation(checkOut, checkIn, booking);
 		HashMap<Integer, Integer> reservations = rooms.getAllRooms();
 		
-		//System.out.println(reservations + "\n" + reservations.containsValue(0));
-		
 		// calculate duration of stay
 		Period period = Period.between(checkIn, checkOut);
 		int duration = period.getDays();
 		
-		//System.out.println(duration);
 		
 		// continue if free room found
 		if(reservations.containsValue(0)) {

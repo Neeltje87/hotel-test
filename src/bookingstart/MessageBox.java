@@ -19,7 +19,7 @@ public class MessageBox
 		Button btnCancel = new Button();
 		btnBook.setText("Book room");
 		btnCancel.setText("Cancel");
-		btnBook.setOnAction(e -> stage.close());
+		btnBook.setOnAction(e -> {new Book(); stage.close();});
 		btnCancel.setOnAction(e -> stage.close());
 		VBox pane = new VBox(20);
 		pane.getChildren().addAll(lbl, btnBook, btnCancel);
