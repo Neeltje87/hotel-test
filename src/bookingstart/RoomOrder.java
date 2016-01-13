@@ -8,22 +8,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javafx.application.*;
-
 import javafx.stage.*;
 import javafx.util.Callback;
 import javafx.scene.*;
-
 import javafx.scene.layout.*;
-
 import javafx.scene.control.*;
-
 import javafx.geometry.*;
-
 import javafx.scene.text.*;
-
-
-
-
 
 public class RoomOrder extends Application
 
@@ -88,6 +79,7 @@ public class RoomOrder extends Application
 		checkInDatePicker = new DatePicker();
 		checkOutDatePicker = new DatePicker();
 		
+		// set checkin to current date
 		checkInDatePicker.setValue(LocalDate.now());
 	    
 			// calculate the length of stay and present in tooltip
@@ -109,7 +101,9 @@ public class RoomOrder extends Application
 	      }
 	    };
 	    
+	    // add tooltip action to checkout
 	    checkOutDatePicker.setDayCellFactory(dayCellFactory);
+	    // set checkout to 1 day after checkin
 	    checkOutDatePicker.setValue(checkInDatePicker.getValue().plusDays(1));
 
 	    // label en input onder elkaar (verticaal) en checkin en checkout naast elkaar (horizontaal)

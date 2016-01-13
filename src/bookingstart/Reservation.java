@@ -40,7 +40,7 @@ public class Reservation {
 	      }
 	   } 
 	   
-	   
+	   // linking booking and roomnr
 	   public HashMap<Integer, Integer> getAllRooms() {
 		   	try{
 		   		while(rowSet.next()) {

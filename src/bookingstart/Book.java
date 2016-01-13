@@ -27,22 +27,19 @@ public class Book {
 	         rowSet.setCommand("SELECT * FROM reservering");
 	         rowSet.execute();
 	         
-	         try {
-		         rowSet.moveToInsertRow();
-		         rowSet.updateInt("RoomNr", roomNr);
-		         rowSet.updateDouble("TotalPrice", price);
-		         rowSet.updateDate("checkin", checkIn);
-		         rowSet.updateDate("checkout", checkOut);
-		         rowSet.insertRow();
-		         rowSet.moveToCurrentRow();
-		      } catch (SQLException ex) {
-		         //rowSet.rollback();
-		    	  System.out.println("insert failed");
-		         ex.printStackTrace();
-		      }      
+	         // upload booking to database
+	         rowSet.moveToInsertRow();
+	         rowSet.updateInt("RoomNr", roomNr);
+	         rowSet.updateDouble("TotalPrice", price);
+	         rowSet.updateDate("checkin", checkIn);
+	         rowSet.updateDate("checkout", checkOut);
+	         rowSet.insertRow();
+	         rowSet.moveToCurrentRow();
+	         Status.status("Booking received", "Booking confirmation");     
 		}
 	    catch (SQLException | ClassNotFoundException ex) {
-	    	  ex.printStackTrace();
+	    	Status.status("Booking failed", "Booking error");  
+	    	ex.printStackTrace();
 	    }
 		
 	}
