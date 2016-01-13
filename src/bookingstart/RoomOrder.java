@@ -1,5 +1,6 @@
 package bookingstart;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 
 import javafx.application.*;
@@ -237,9 +238,9 @@ public class RoomOrder extends Application
 		}
 
 		// check availability...
-		Availability availability = new Availability();
-		HashMap<Integer, String> roomAvailable = availability.getRoomAvailability();
-		System.out.println(roomAvailable);
+		Availability rooms = new Availability(LocalDate.of(2016, 1, 13));
+		HashMap<Integer, Integer> allRooms = rooms.getAllRooms();
+		System.out.println(allRooms);
 		
 			String booking = roomType.getDescription();
 
