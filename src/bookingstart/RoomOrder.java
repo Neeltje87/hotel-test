@@ -1,12 +1,13 @@
 package bookingstart;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 
 import javafx.application.*;
 
 import javafx.stage.*;
-
+import javafx.util.Callback;
 import javafx.scene.*;
 
 import javafx.scene.layout.*;
@@ -38,13 +39,11 @@ public class RoomOrder extends Application
    	Stage stage;
 
    	// datum selecteerder
+   	DatePicker checkInDatePicker;
+   	DatePicker checkOutDatePicker;
    	
-   	
-
     // Room type radio buttons
-
-
-
+   	
     RadioButton rdoBasic;
 
     RadioButton rdoSuite;
@@ -52,13 +51,12 @@ public class RoomOrder extends Application
 
 	// Decorator check boxes
 
-
-
     CheckBox chkSlaapbank;
 
     CheckBox chkTv;
 
     CheckBox chkAllInclusive;
+
 
     @Override public void start(Stage primaryStage)
 
@@ -80,11 +78,42 @@ public class RoomOrder extends Application
 
 		// ---------- Create the order pane ----------
 
+		// Create date picker pane
+		
+		Label lblDate = new Label("Select date");
+		checkInDatePicker = new DatePicker();
+		checkOutDatePicker = new DatePicker();
+		
+		checkInDatePicker.setValue(LocalDate.now());
+	    
+		// calculate the length of stay and present in tooltip
+		final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
+	      @Override
+	      public DateCell call(final DatePicker datePicker) {
+	        return new DateCell() {
+	          @Override
+	          public void updateItem(LocalDate item, boolean empty) {
+	            super.updateItem(item, empty);
 
+	            long p = ChronoUnit.DAYS.between(checkInDatePicker.getValue(), item);
+	            if (p>0){
+	            	setTooltip(new Tooltip("You're about to stay for " + p + " days"));
+	            }
+	            
+	          }
+	        };
+	      }
+	    };
+	    
+	    checkOutDatePicker.setDayCellFactory(dayCellFactory);
+	    checkOutDatePicker.setValue(checkInDatePicker.getValue().plusDays(1));
 
+	    
+		VBox paneDate = new VBox(lblDate, checkInDatePicker, checkOutDatePicker);
+
+		paneDate.setSpacing(10);
+		
 		// Create the roomtype pane
-
-
 
 		Label lblSize = new Label("Room Type");
 
@@ -100,8 +129,6 @@ public class RoomOrder extends Application
 		rdoBasic.setToggleGroup(groupSize);
 
 		rdoSuite.setToggleGroup(groupSize);
-
-
 
 
 		VBox paneSize = new VBox(lblSize, rdoBasic, rdoSuite);
@@ -136,7 +163,6 @@ public class RoomOrder extends Application
 		paneToppings.setPrefWrapLength(100);
 
 
-
 		VBox paneTopping = new VBox(lblToppings, paneToppings);
 
 
@@ -145,7 +171,7 @@ public class RoomOrder extends Application
 
 
 
-		HBox paneOrder = new HBox(50, paneSize, paneTopping);
+		HBox paneBooking = new HBox(50, paneDate, paneSize, paneTopping);
 
 
 
@@ -153,16 +179,12 @@ public class RoomOrder extends Application
 
 
 
-		VBox paneCenter = new VBox(20, paneOrder);
+		VBox paneCenter = new VBox(20, paneBooking);
 
 		paneCenter.setPadding(new Insets(0,10, 0, 10));
 
 
-
-
-
 		// ---------- Create the bottom pane ----------
-
 
 
 		Button btnOK = new Button("OK");
@@ -226,6 +248,10 @@ public class RoomOrder extends Application
 	public void btnOK_Click()
 
 	{
+		// get desired booking dates
+		LocalDate checkIn = checkInDatePicker.getValue();
+		LocalDate checkOut = checkOutDatePicker.getValue();
+		System.out.println(checkIn + " " + checkOut);
 		
 		// Add the room type
 
