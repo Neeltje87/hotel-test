@@ -6,7 +6,7 @@ import javax.sql.rowset.RowSetProvider;
 import java.time.LocalDate;
 import java.util.HashMap;
 
-public class Availability {
+public class Reservation {
 	// connectie met database
 	   static final String JDBC_DRIVER =
 	      "com.mysql.jdbc.Driver";
@@ -18,7 +18,7 @@ public class Availability {
 	   public HashMap<Integer, Integer> allRooms = new HashMap<>();
 	   
 	// creating rowset
-	   public Availability(LocalDate date_wanted_checkout) {
+	   public Reservation(LocalDate date_wanted_checkout, String roomType) {
 	      try {
 	         Class.forName(JDBC_DRIVER);
 	         rowSet = RowSetProvider.newFactory().createJdbcRowSet();
@@ -27,12 +27,13 @@ public class Availability {
 	         rowSet.setPassword(DB_PASS);
 	         rowSet.setCommand("SELECT k.Roomnr, k.Type, r.Bookingnr FROM kamers k"
 	         		+ " LEFT JOIN reservering r ON (k.Roomnr = r.Roomnr)"
-	         		//+ " AND (r.checkin < date_wanted_checkout and r.checkout > date_wanted_checkout)"
-	         		+ "");
+	         		+ " AND (r.checkin < '" + date_wanted_checkout + "' AND r.checkout > '" + date_wanted_checkout + "')"
+	         		+ " WHERE (k.Type = '" + roomType + "')");
 	         rowSet.execute();
 			}
 	      catch (SQLException | ClassNotFoundException ex) {
-	         ex.printStackTrace();
+	          System.out.println(roomType);
+	    	  ex.printStackTrace();
 	      }
 	   } 
 	   

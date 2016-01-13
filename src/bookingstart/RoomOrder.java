@@ -236,13 +236,16 @@ public class RoomOrder extends Application
 		if (rdoSuite.isSelected()) {
 			roomType = new Suite();
 		}
-
-		// check availability...
-		Availability rooms = new Availability(LocalDate.of(2016, 1, 13));
-		HashMap<Integer, Integer> allRooms = rooms.getAllRooms();
-		System.out.println(allRooms);
+			
+		String booking = roomType.getDescription();
+		// check availability
+		// if booking is 0 then room is free
+		Reservation rooms = new Reservation(LocalDate.of(2016, 1, 13), booking);
+		HashMap<Integer, Integer> reservations = rooms.getAllRooms();
+		System.out.println(reservations);
 		
-			String booking = roomType.getDescription();
+		
+		// continue if free room found
 
 			// Add the extra's
 
@@ -272,10 +275,14 @@ public class RoomOrder extends Application
 
 			booking += "\n Total price = " + price;
 
-			// Display the message
+			
+			// if no free room found
+			//booking += " \n Sorry no room available for given time period";
+			
+		// Display the message
 
-			MessageBox.show(booking, "Booking pending");
-			//System.out.println("Price of " + booking);
+		MessageBox.show(booking, "Booking pending");
+		//System.out.println("Price of " + booking);
 		
 		
 

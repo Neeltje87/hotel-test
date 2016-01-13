@@ -5,7 +5,7 @@ package bookingstart;
 
 public class BasicRoom extends HotelRoom {
 	private double price = 50.0;
-	private String description = "Basic Room";
+	private String description = "BasicRoom";
 /*	
 	BasicRoom(LocalDate arrival, LocalDate leaving, String room) {
 		super(arrival, leaving, room);
