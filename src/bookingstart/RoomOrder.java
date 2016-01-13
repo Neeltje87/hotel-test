@@ -1,6 +1,7 @@
 package bookingstart;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 
@@ -269,16 +270,21 @@ public class RoomOrder extends Application
 		String booking = roomType.getDescription();
 		// check availability (checkout, checkin, roomtype)
 		// if booking is 0 then room is free
-		Reservation rooms = new Reservation(LocalDate.of(2016, 1, 15), LocalDate.of(2016, 1, 13), booking);
+		Reservation rooms = new Reservation(checkOut, checkIn, booking);
 		HashMap<Integer, Integer> reservations = rooms.getAllRooms();
 		
-		System.out.println(reservations + "\n" + reservations.containsValue(0));
+		//System.out.println(reservations + "\n" + reservations.containsValue(0));
 		
+		// calculate duration of stay
+		Period period = Period.between(checkIn, checkOut);
+		int duration = period.getDays();
+		
+		//System.out.println(duration);
 		
 		// continue if free room found
 		if(reservations.containsValue(0)) {
+			
 			// Add the extra's
-
 			String extras = "";
 
 			if (chkSlaapbank.isSelected()) {
@@ -302,8 +308,12 @@ public class RoomOrder extends Application
 			} else {
 				booking += " with: \n" + extras;
 			}
-
+			
+			// calculate total price
+			price = duration * price;
+			
 			booking += "\n Total price = " + price;
+		
 		} else {	
 			// if no free room found
 			booking += " \n Sorry no room available for given time period";
