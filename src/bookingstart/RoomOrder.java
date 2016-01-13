@@ -1,5 +1,6 @@
 package bookingstart;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
@@ -253,8 +254,11 @@ public class RoomOrder extends Application
 
 	{
 		// get desired booking dates
-		LocalDate checkIn = checkInDatePicker.getValue();
-		LocalDate checkOut = checkOutDatePicker.getValue();
+		LocalDate checkInDate = checkInDatePicker.getValue();
+		LocalDate checkOutDate = checkOutDatePicker.getValue();
+		
+		Date checkIn = java.sql.Date.valueOf( checkInDate );
+		Date checkOut = java.sql.Date.valueOf( checkOutDate );
 		
 		// Add the room type
 
@@ -272,11 +276,11 @@ public class RoomOrder extends Application
 		String booking = roomType.getDescription();
 		// check availability (checkout, checkin, roomtype)
 		// if booking is 0 then room is free
-		Reservation rooms = new Reservation(checkOut, checkIn, booking);
+		Reservation rooms = new Reservation(checkOutDate, checkInDate, booking);
 		HashMap<Integer, Integer> reservations = rooms.getAllRooms();
 		
 		// calculate duration of stay
-		Period period = Period.between(checkIn, checkOut);
+		Period period = Period.between(checkInDate, checkOutDate);
 		int duration = period.getDays();
 		
 		int roomNr = 0;

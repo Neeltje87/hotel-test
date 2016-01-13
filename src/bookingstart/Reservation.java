@@ -36,7 +36,6 @@ public class Reservation {
 	         rowSet.execute();
 			}
 	      catch (SQLException | ClassNotFoundException ex) {
-	          System.out.println(roomType);
 	    	  ex.printStackTrace();
 	      }
 	   } 

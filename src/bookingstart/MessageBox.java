@@ -4,13 +4,12 @@ import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
-
-import java.time.LocalDate;
-
+import java.sql.Date;
 import javafx.geometry.*;
+
 public class MessageBox
 {
-	public static void confirm(String message, String title, int roomNr, double price, LocalDate checkIn, LocalDate checkOut)
+	public static void confirm(String message, String title, int roomNr, double price, Date checkIn, Date checkOut)
 	{
 		Stage stage = new Stage();
 		stage.initModality(Modality.APPLICATION_MODAL);
