@@ -18,7 +18,7 @@ public class Reservation {
 	   public HashMap<Integer, Integer> allRooms = new HashMap<>();
 	   
 	// creating rowset
-	   public Reservation(LocalDate date_wanted_checkout, String roomType) {
+	   public Reservation(LocalDate date_wanted_checkout, LocalDate date_wanted_checkin, String roomType) {
 	      try {
 	         Class.forName(JDBC_DRIVER);
 	         rowSet = RowSetProvider.newFactory().createJdbcRowSet();
@@ -27,7 +27,11 @@ public class Reservation {
 	         rowSet.setPassword(DB_PASS);
 	         rowSet.setCommand("SELECT k.Roomnr, k.Type, r.Bookingnr FROM kamers k"
 	         		+ " LEFT JOIN reservering r ON (k.Roomnr = r.Roomnr)"
-	         		+ " AND (r.checkin < '" + date_wanted_checkout + "' AND r.checkout > '" + date_wanted_checkout + "')"
+	        		 // checkout is tussen een al geboekte periode
+	         		+ " AND ((r.checkin < '" + date_wanted_checkout + "' AND r.checkout >= '" + date_wanted_checkout + "')"
+	         		 // checkin is tussen een al geboekte periode
+	         		+ " OR (r.checkin <= '" + date_wanted_checkin + "' AND r.checkout > '" + date_wanted_checkin + "'))"
+	         		// voor het geselecteerde roomtype
 	         		+ " WHERE (k.Type = '" + roomType + "')");
 	         rowSet.execute();
 			}

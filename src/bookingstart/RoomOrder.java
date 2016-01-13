@@ -37,6 +37,9 @@ public class RoomOrder extends Application
 
    	Stage stage;
 
+   	// datum selecteerder
+   	
+   	
 
     // Room type radio buttons
 
@@ -238,10 +241,11 @@ public class RoomOrder extends Application
 		}
 			
 		String booking = roomType.getDescription();
-		// check availability
+		// check availability (checkout, checkin, roomtype)
 		// if booking is 0 then room is free
-		Reservation rooms = new Reservation(LocalDate.of(2016, 1, 13), booking);
+		Reservation rooms = new Reservation(LocalDate.of(2016, 1, 15), LocalDate.of(2016, 1, 13), booking);
 		HashMap<Integer, Integer> reservations = rooms.getAllRooms();
+		
 		System.out.println(reservations + "\n" + reservations.containsValue(0));
 		
 		
